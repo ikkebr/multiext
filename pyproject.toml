@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multiext"
+version = "0.1.0" # Will be synchronized with setup.cfg or automated later
+description = "A Python library for advanced parsing, validation, and manipulation of multipart file extensions."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT License" }
+keywords = ["file extensions", "path manipulation", "filename parsing", "multipart suffix"]
+authors = [
+  {name = "Henrique Pereira", email = "ikkibr@gmail.com"} # Placeholder, user should update
+]
+classifiers = [
+    "Development Status :: 4 - Beta", # Or 3 - Alpha / 5 - Production/Stable
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Filesystems",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/ikkebr/multiext" # Placeholder, user should update
+Repository = "https://github.com/ikkebr/multiext" # Placeholder, user should update
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov>=2.0",
+    "build",
+    "twine",
+]
