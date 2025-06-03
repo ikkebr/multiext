@@ -36,10 +36,9 @@ For now, if you want to install it from source (e.g., to get the latest developm
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/your-username/multiext.git
+    git clone https://github.com/ikkebr/multiext.git
     cd multiext
     ```
-    *(Note: Replace `your-username` with the actual repository path if applicable)*
 
 2.  Install in editable mode:
     ```bash
