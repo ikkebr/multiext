@@ -42,7 +42,8 @@ def has_multipart_suffix(filename_or_path: str | os.PathLike) -> bool:
 def is_valid_multipart_suffix(
     filename_or_path: str | os.PathLike,
     valid_suffixes: Iterable[str] | str,
-    case_sensitive: bool = False
+    case_sensitive: bool = False,
+    strict_match: bool = False
 ) -> bool:
     """
     Validates if the full suffix of a filename matches any of the provided valid suffixes.
@@ -58,6 +59,11 @@ def is_valid_multipart_suffix(
                           Each suffix should include the leading dot.
                           Suffixes can be strings or regex patterns.
         case_sensitive: If True, the comparison is case-sensitive. Defaults to False.
+        strict_match: If True, the validation checks if the filename's suffix *ends with*
+                      one of the `valid_suffixes` (for strings) or if the regex
+                      matches a trailing part of the filename's suffix.
+                      If False (default), the filename's *entire full suffix* (from the
+                      first dot) must match one of the `valid_suffixes`.
 
     Returns:
         True if the filename's full suffix matches any of the valid_suffixes,
@@ -93,6 +99,24 @@ def is_valid_multipart_suffix(
         False
         >>> is_valid_multipart_suffix("myfile.ZST", r".*\.ZST$", case_sensitive=True) # Regex case-sensitive
         True
+        # Examples for strict_match
+        >>> is_valid_multipart_suffix("my.project.bom.cdx.json", {".cdx.json"}, strict_match=True)
+        True
+        >>> is_valid_multipart_suffix("my.project.bom.cdx.json", {".bom.cdx.json"}, strict_match=True)
+        True
+        >>> is_valid_multipart_suffix("my.project.bom.cdx.json", {".project.bom.cdx.json"}, strict_match=True)
+        True
+        >>> is_valid_multipart_suffix("archive.tar.gz", {".gz"}, strict_match=True)
+        True
+        >>> is_valid_multipart_suffix("archive.tar.gz", {r"\.gz$"}, strict_match=True) # Regex example
+        True
+        >>> is_valid_multipart_suffix("archive.tar.gz", {r"\.tar\.gz$"}, strict_match=True)
+        True
+        # Example of strict_match=False (current behavior) vs strict_match=True
+        >>> is_valid_multipart_suffix("a.b.c.zip", {".zip"}) # strict_match=False by default
+        False
+        >>> is_valid_multipart_suffix("a.b.c.zip", {".zip"}, strict_match=True)
+        True
     """
     full_file_suffix = get_full_suffix(filename_or_path)
 
@@ -113,17 +137,25 @@ def is_valid_multipart_suffix(
 
         if is_regex:
             flags = 0 if case_sensitive else re.IGNORECASE
-            if re.fullmatch(vs_item, full_file_suffix, flags):
-                return True
+            if strict_match:
+                if re.search(vs_item, full_file_suffix, flags): # Use re.search for strict regex
+                    return True
+            else:
+                if re.fullmatch(vs_item, full_file_suffix, flags): # Existing re.fullmatch
+                    return True
         else:
             # Plain string comparison
-            s_to_compare = full_file_suffix
-            vs_to_compare = vs_item
+            s_to_compare_effective = full_file_suffix
+            vs_to_compare_effective = vs_item
             if not case_sensitive:
-                s_to_compare = full_file_suffix.lower()
-                vs_to_compare = vs_item.lower()
+                s_to_compare_effective = full_file_suffix.lower()
+                vs_to_compare_effective = vs_item.lower()
 
-            if s_to_compare == vs_to_compare:
-                return True
+            if strict_match:
+                if s_to_compare_effective.endswith(vs_to_compare_effective): # Use endswith for strict string
+                    return True
+            else:
+                if s_to_compare_effective == vs_to_compare_effective: # Existing equality check
+                    return True
 
     return False
