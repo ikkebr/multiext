@@ -158,5 +158,46 @@ class TestValidation(unittest.TestCase):
         self.assertTrue(is_valid_multipart_suffix("file.log.txt", {r"\.log\.txt"}))
         self.assertTrue(is_valid_multipart_suffix("file.log", {r".*\.log"})) # More flexible regex
 
+    def test_is_valid_multipart_suffix_strict_match(self):
+        # Test cases for strict_match = True
+        # Specific case from the issue
+        self.assertTrue(is_valid_multipart_suffix('my.project.bom.cdx.json', {'.cdx.json'}, strict_match=True))
+
+        # Basic endswith checks for strings
+        self.assertTrue(is_valid_multipart_suffix('foo.bar.zip', {'.zip'}, strict_match=True))
+        self.assertTrue(is_valid_multipart_suffix('foo.bar.zip', {'.bar.zip'}, strict_match=True))
+        # For a file like '.foo.bar.zip', get_full_suffix is '.foo.bar.zip'
+        self.assertTrue(is_valid_multipart_suffix('.foo.bar.zip', {'.foo.bar.zip'}, strict_match=True)) # Full match also works
+
+        # A case that endswith would match but a simple equality wouldn't
+        self.assertTrue(is_valid_multipart_suffix('foo.bar.zip', {'.ar.zip'}, strict_match=True))
+
+        # Negative case for string matching
+        self.assertFalse(is_valid_multipart_suffix('foo.bar.zip', {'.qux.zip'}, strict_match=True))
+
+        # Case sensitivity with strict_match=True
+        self.assertTrue(is_valid_multipart_suffix('FOO.BAR.ZIP', {'.zip'}, strict_match=True, case_sensitive=False))
+        self.assertTrue(is_valid_multipart_suffix('FOO.BAR.ZIP', {'.ZIP'}, strict_match=True, case_sensitive=False))
+        self.assertFalse(is_valid_multipart_suffix('FOO.BAR.ZIP', {'.zip'}, strict_match=True, case_sensitive=True))
+        self.assertTrue(is_valid_multipart_suffix('FOO.BAR.ZIP', {'.ZIP'}, strict_match=True, case_sensitive=True))
+        self.assertTrue(is_valid_multipart_suffix('foo.bar.zip', {'.zip'}, strict_match=True, case_sensitive=True))
+
+        # Regex matching with strict_match=True (using re.search)
+        self.assertTrue(is_valid_multipart_suffix('my.project.bom.cdx.json', {r'\.cdx\.json$'}, strict_match=True))
+        self.assertTrue(is_valid_multipart_suffix('my.project.bom.cdx.json', {r'\.json$'}, strict_match=True))
+        self.assertTrue(is_valid_multipart_suffix('my.project.bom.cdx.json', {r'om\.cdx\.json$'}, strict_match=True)) # Partial part before dot
+        self.assertTrue(is_valid_multipart_suffix('my.project.bom.cdx.json', {r'\.cdx\.json'}, strict_match=True)) # Non-anchored, re.search finds it
+        self.assertTrue(is_valid_multipart_suffix('my.project.bom.cdx.json', {r'\.project.*\.json$'}, strict_match=True))
+        self.assertFalse(is_valid_multipart_suffix('my.project.bom.cdx.json', {r'^suffix_must_be_at_start\.cdx\.json$'}, strict_match=True))
+
+        # Regex with case_sensitive=True and strict_match=True
+        self.assertTrue(is_valid_multipart_suffix('my.project.bom.CDX.JSON', {r'\.cdx\.json$'}, case_sensitive=False, strict_match=True))
+        self.assertFalse(is_valid_multipart_suffix('my.project.bom.CDX.JSON', {r'\.cdx\.json$'}, case_sensitive=True, strict_match=True))
+        self.assertTrue(is_valid_multipart_suffix('my.project.bom.CDX.JSON', {r'\.CDX\.JSON$'}, case_sensitive=True, strict_match=True))
+
+        # Test interaction with valid_suffixes as a single string
+        self.assertTrue(is_valid_multipart_suffix('my.project.bom.cdx.json', '.cdx.json', strict_match=True))
+        self.assertTrue(is_valid_multipart_suffix('my.project.bom.cdx.json', r'\.cdx\.json$', strict_match=True))
+
 if __name__ == '__main__':
     unittest.main()
