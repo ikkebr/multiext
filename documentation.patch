@@ -1,0 +1,390 @@
+diff --git a/.gitignore b/.gitignore
+index 4a254ba..284101d 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -2,10 +2,8 @@
+ __pycache__/
+ *.py[cod]
+ *$py.class
+-
+ # C extensions
+ *.so
+-
+ # Distribution / packaging
+ .Python
+ build/
+@@ -25,15 +23,12 @@ share/python-wheels/
+ .installed.cfg
+ *.egg
+ MANIFEST
+-
+ # PyInstaller
+ *.manifest
+ *.spec
+-
+ # Installer logs
+ pip-log.txt
+ pip-delete-this-directory.txt
+-
+ # Unit test / coverage reports
+ htmlcov/
+ .tox/
+@@ -48,67 +43,50 @@ coverage.xml
+ .hypothesis/
+ .pytest_cache/
+ cover/
+-
+ # Translations
+ *.mo
+ *.pot
+-
+ # Django stuff:
+ *.log
+ local_settings.py
+ db.sqlite3
+ db.sqlite3-journal
+-
+ # Flask stuff:
+ instance/
+ .webassets-cache
+-
+ # Scrapy stuff:
+ .scrapy
+-
+ # Sphinx documentation build output
+ docs/_build/
+ # docs/api/  # Manually curated API docs, should be versioned
+-
+ # PyBuilder
+ .pybuilder/
+ target/
+-
+ # Jupyter Notebook
+ .ipynb_checkpoints
+-
+ # IPython
+ profile_default/
+ ipython_config.py
+-
+ # pyenv
+ # .python-version
+-
+ # pipenv
+ #Pipfile.lock
+-
+ # UV
+ #uv.lock
+-
+ # poetry
+ #poetry.lock
+-
+ # pdm
+ #pdm.lock
+ .pdm.toml
+ .pdm-python
+ .pdm-build/
+-
+ # PEP 582
+ __pypackages__/
+-
+ # Celery stuff
+ celerybeat-schedule
+ celerybeat.pid
+-
+ # SageMath parsed files
+ *.sage.py
+-
+ # Environments
+ .env
+ .venv
+@@ -117,46 +95,33 @@ venv/
+ ENV/
+ env.bak/
+ venv.bak/
+-
+ # Spyder project settings
+ .spyderproject
+ .spyproject
+-
+ # Rope project settings
+ .ropeproject
+-
+ # mkdocs documentation
+ /site
+-
+ # mypy
+ .mypy_cache/
+ .dmypy.json
+ dmypy.json
+-
+ # Pyre type checker
+ .pyre/
+-
+ # pytype static type analyzer
+ .pytype/
+-
+ # Cython debug symbols
+ cython_debug/
+-
+ # PyCharm
+ #.idea/
+-
+ # Abstra
+ .abstra/
+-
+ # Visual Studio Code
+ # .vscode/
+-
+ # Ruff stuff:
+ .ruff_cache/
+-
+ # PyPI configuration file
+ .pypirc
+-
+ # Cursor
+ .cursorignore
+ .cursorindexingignore
+diff --git a/docs/Makefile b/docs/Makefile
+index d4bb2cb..ca50aa6 100644
+--- a/docs/Makefile
++++ b/docs/Makefile
+@@ -1,19 +1,15 @@
+ # Minimal makefile for Sphinx documentation
+ #
+-
+ # You can set these variables from the command line, and also
+ # from the environment for the first two.
+ SPHINXOPTS    ?=
+ SPHINXBUILD   ?= sphinx-build
+ SOURCEDIR     = .
+ BUILDDIR      = _build
+-
+ # Put it first so that "make" without argument is like "make help".
+ help:
+	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+-
+ .PHONY: help Makefile
+-
+ # Catch-all target: route all unknown targets to Sphinx using the new
+ # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+ %: Makefile
+diff --git a/docs/api/multiext.manipulation.rst b/docs/api/multiext.manipulation.rst
+index 1d47885..299ecd4 100644
+--- a/docs/api/multiext.manipulation.rst
++++ b/docs/api/multiext.manipulation.rst
+@@ -1,16 +1,12 @@
+ multiext.manipulation
+ =====================
+-
+ The `multiext.manipulation` module provides powerful functions for modifying filenames and paths that involve multipart extensions. These utilities allow for precise control over how extensions are added, removed, or replaced, going beyond the standard library's capabilities which typically only handle the final suffix part.
+-
+ Common use cases include:
+   - **File Conversion Processes:** Renaming files after converting them from one format to another where multipart extensions are involved (e.g., changing ``data.tar.gz`` to ``data.tar.bz2`` or ``data.zip``).
+   - **Versioning and Backup:** Adding suffix parts to indicate versions or backup status (e.g., ``config.json`` to ``config.json.bak`` or ``report.v1.docx``).
+   - **Standardizing Filenames:** Removing or replacing non-standard or intermediate suffix parts to achieve a consistent naming scheme.
+   - **Generating Output Filenames:** Programmatically constructing filenames with specific multipart extensions based on input files or processing steps.
+-
+ These functions simplify common filename transformation tasks, especially when dealing with complex extension structures.
+-
+ .. automodule:: multiext.manipulation
+    :members:
+    :undoc-members:
+diff --git a/docs/api/multiext.parser.rst b/docs/api/multiext.parser.rst
+index b4ae07f..99d5497 100644
+--- a/docs/api/multiext.parser.rst
++++ b/docs/api/multiext.parser.rst
+@@ -1,16 +1,12 @@
+ multiext.parser
+ ===============
+-
+ The `multiext.parser` module provides robust tools for dissecting filenames and paths, particularly those with complex, multi-part extensions like ``.tar.gz`` or ``.project.snapshot.zip``. These functions are essential for applications that need to accurately identify file types, extract meaningful components from filenames (such as the base name or specific extension parts), or normalize suffixes for consistent processing.
+-
+ Common use cases include:
+   - **File Type Detection:** Identifying the true nature of a file beyond its simple ``.splitext()()`` suffix. For example, distinguishing between a ``.tar`` archive and a ``.tar.gz`` compressed archive.
+   - **File Organization and Routing:** Automatically categorizing or routing files based on the components of their extensions.
+   - **Data Processing Pipelines:** Extracting specific information embedded in filenames, such as version numbers or content indicators, often found within multipart extensions.
+   - **Filename Normalization:** Ensuring that file extensions are in a consistent format (e.g., lowercase, single leading dot) before storage or comparison.
+-
+ The functions in this module form the foundation for more advanced file manipulation and validation tasks within the `multiext` library.
+-
+ .. automodule:: multiext.parser
+    :members:
+    :undoc-members:
+diff --git a/docs/api/multiext.path.rst b/docs/api/multiext.path.rst
+index dac127e..bceb8b7 100644
+--- a/docs/api/multiext.path.rst
++++ b/docs/api/multiext.path.rst
+@@ -1,26 +1,17 @@
+ multiext.path
+ =============
+-
+ The `multiext.path` module introduces the `MultiExtPath` class, an extension of the standard `pathlib.Path`. This specialized class is designed to simplify and enhance interactions with file paths that feature multipart extensions (e.g., ``archive.tar.gz``, ``data.project.snapshot``).
+-
+ **Benefits of using `MultiExtPath`**
+-
+ While `pathlib.Path` is powerful, its handling of suffixes is typically limited to the final part of an extension (e.g., ``.gz`` in ``archive.tar.gz``). `MultiExtPath` offers a more nuanced approach:
+-
+ - **Accurate Multipart Suffix Handling:** Properties like `full_suffix` correctly identify the entire sequence of extensions (e.g., ``.tar.gz``).
+ - **Precise Stem Extraction:** The `stem_multipart` property provides the true stem of the filename before any extension part (e.g., ``archive`` from ``archive.tar.gz``).
+ - **Simplified Suffix Manipulation:** Methods like `replace_multipart_suffix` allow for easy and reliable modification of complex extensions.
+ - **Consistency:** It seamlessly integrates the parsing and manipulation logic from other `multiext` modules in an object-oriented manner.
+ - **Inheritance:** As a subclass of `pathlib.Path`, it retains all the standard path manipulation capabilities, ensuring drop-in compatibility where `Path` objects are expected.
+-
+ This makes `MultiExtPath` particularly useful in applications that frequently deal with compressed files, versioned files, or any naming convention that utilizes multiple dot-separated segments in the extension.
+-
+ **Usage and Examples**
+-
+ Below are examples demonstrating key features of `MultiExtPath`.
+-
+ **Properties:**
+-
+ *   **`full_suffix`**: Retrieves the complete multipart suffix.
+     ```python
+     >>> from multiext import MultiExtPath
+@@ -34,7 +25,6 @@ Below are examples demonstrating key features of `MultiExtPath`.
+     >>> p.full_suffix
+     ''
+     ```
+-
+ *   **`stem_multipart`**: Retrieves the base name before any part of the extension.
+     ```python
+     >>> from multiext import MultiExtPath
+@@ -48,32 +38,25 @@ Below are examples demonstrating key features of `MultiExtPath`.
+     >>> p.stem_multipart
+     ''
+     ```
+-
+ **Methods:**
+-
+ *   **`replace_multipart_suffix(new_suffix)`**: Replaces the entire multipart suffix with a new one.
+     ```python
+     >>> from multiext import MultiExtPath
+     >>> p = MultiExtPath("archive.old.tar.gz")
+     >>> p.replace_multipart_suffix(".zip")
+     MultiExtPath('archive.old.zip')
+-
+     >>> p = MultiExtPath("project_data.csv.bak")
+     >>> p.replace_multipart_suffix(".csv")
+     MultiExtPath('project_data.csv')
+-
+     >>> p = MultiExtPath("image.jpeg")
+     >>> p.replace_multipart_suffix(".png")
+     MultiExtPath('image.png')
+-
+     >>> p = MultiExtPath("script") # No suffix
+     >>> p.replace_multipart_suffix(".py")
+     MultiExtPath('script.py')
+-
+     >>> p = MultiExtPath(".profile") # Hidden file
+     >>> p.replace_multipart_suffix(".sh") # stem_multipart is '', new_suffix is '.sh'
+     MultiExtPath('.sh')
+-
+     >>> p = MultiExtPath("path/to/somefile.tar.gz")
+     >>> p.replace_multipart_suffix(".backup.zip")
+     MultiExtPath('path/to/somefile.backup.zip')
+@@ -90,9 +73,7 @@ Below are examples demonstrating key features of `MultiExtPath`.
+     #     print(f"Renaming {f_path} to {new_path}")
+     # This would result in reportA.docx.final, reportB.docx.final
+     ```
+-
+ **Integration with `pathlib.Path` features:**
+-
+ Since `MultiExtPath` is a subclass of `pathlib.Path`, all standard `Path` methods and properties are available and work as expected, returning `MultiExtPath` instances where appropriate.
+     ```python
+     >>> from multiext import MultiExtPath
+@@ -109,7 +90,6 @@ Since `MultiExtPath` is a subclass of `pathlib.Path`, all standard `Path` method
+     >>> new_p
+     MultiExtPath('/usr/local/bin/another_file.txt')
+     ```
+-
+ .. automodule:: multiext.path
+    :members:
+    :undoc-members:
+diff --git a/docs/api/multiext.validation.rst b/docs/api/multiext.validation.rst
+index 4e7d92b..ec4057b 100644
+--- a/docs/api/multiext.validation.rst
++++ b/docs/api/multiext.validation.rst
+@@ -1,16 +1,12 @@
+ multiext.validation
+ ===================
+-
+ The `multiext.validation` module offers functions to verify whether filenames or paths possess multipart suffixes and to validate these suffixes against a defined set of criteria. This is crucial for applications that expect files with specific complex extensions and need to ensure compliance before processing.
+-
+ Common use cases include:
+   - **Input File Validation:** Ensuring that files provided to a system (e.g., uploads, command-line arguments) have the expected multipart extension (e.g., ``.tar.gz``, ``.cdx.json``).
+   - **Filtering and Selection:** Identifying files that match specific, potentially complex, extension patterns within a directory or dataset.
+   - **Security Checks:** Verifying that filenames conform to expected patterns to prevent processing of unexpected or potentially malicious file types, especially when dealing with multipart suffixes that might obscure the true file nature.
+   - **Conditional Logic:** Implementing logic that behaves differently based on whether a file has a recognized multipart suffix.
+-
+ These validation tools help in building more robust and secure file processing workflows.
+-
+ .. automodule:: multiext.validation
+    :members:
+    :undoc-members:
+diff --git a/docs/conf.py b/docs/conf.py
+index 1189d3e..7adda4a 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -1,25 +1,18 @@
+ # Configuration file for the Sphinx documentation builder.
+-#
+ # For the full list of built-in configuration values, see the documentation:
+ # https://www.sphinx-doc.org/en/master/usage/configuration.html
+-
+ import os
+ import sys
+ sys.path.insert(0, os.path.abspath('..')) # Add project root
+-
+ # -- Project information -----------------------------------------------------
+ # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+-
+ project = 'multiext'
+ copyright = '2025, ikkebr (from pyproject.toml)'
+ author = 'ikkebr (from pyproject.toml)'
+-
+ version = '0.2.1'
+ release = '0.2.1'
+-
+ # -- General configuration ---------------------------------------------------
+ # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+-
+ extensions = [
+     'sphinx.ext.autodoc',
+     'sphinx.ext.viewcode',
+@@ -27,16 +20,10 @@ extensions = [
+     'sphinx_rtd_theme',
+     'm2r2'
+ ]
+-
+ source_suffix = ['.rst', '.md']
+-
+ templates_path = ['_templates']
+ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+-
+-
+-
+ # -- Options for HTML output -------------------------------------------------
+ # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+-
+ html_theme = 'sphinx_rtd_theme'
+ html_static_path = ['_static']
+diff --git a/docs/index.rst b/docs/index.rst
+index 50427e8..a7bc8af 100644
+--- a/docs/index.rst
++++ b/docs/index.rst
+@@ -1,15 +1,11 @@
+ .. mdinclude:: ../README.md
+-
+ .. toctree::
+    :maxdepth: 2
+    :caption: Contents:
+-
+    Home <self>
+-
+ .. toctree::
+    :maxdepth: 2
+    :caption: API Reference:
+-
+    api/multiext.parser
+    api/multiext.validation
+    api/multiext.manipulation
