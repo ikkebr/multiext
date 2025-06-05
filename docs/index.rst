@@ -10,5 +10,7 @@
    :maxdepth: 2
    :caption: API Reference:
 
-   api/multiext
-   api/modules
+   api/multiext.parser
+   api/multiext.validation
+   api/multiext.manipulation
+   api/multiext.path
