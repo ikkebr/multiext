@@ -2,27 +2,32 @@
 
 **multiext** is a Python library for advanced parsing, validation, and manipulation of multipart file extensions (e.g., `.tar.gz`, `.b.c`). It provides a more comprehensive way to work with complex file suffixes than the standard `os.path` or `pathlib` modules alone, offering robust tools for developers who need to reliably identify, validate, and transform filenames based on their complete extension chains.
 
-## Features
+## Key Features & Modules
 
 The library is organized into several main categories:
 
--   **Parsing (`multiext.parser`)**:
-    -   Extract the full multipart suffix (e.g., `.tar.gz`) using `get_full_suffix()`.
-    -   Get the base stem of a filename before any multipart suffix using `get_stem_multipart()`.
-    -   Split a filename into its multipart stem and full suffix using `split_multipart_ext()`.
-    -   Break down a full suffix into its constituent parts (e.g., `['.tar', '.gz']`) using `get_suffix_parts()`.
-    -   Normalize suffix strings to a consistent format (e.g., lowercase, single leading dot) using `normalize_suffix()`.
--   **Validation (`multiext.validation`)**:
-    -   Check if a filename possesses a multipart suffix using `has_multipart_suffix()`.
-    -   Validate if a filename's full suffix matches any from a list of valid suffixes using `is_valid_multipart_suffix()`.
-        -   Supports case-sensitive/insensitive comparisons via the `case_sensitive` parameter.
-        -   Supports regex patterns for defining valid suffixes.
--   **Manipulation (`multiext.manipulation`)**:
-    -   Replace the entire multipart suffix of a filename with a new one using `replace_multipart_suffix()`.
-    -   Add a new part to an existing suffix chain using `add_suffix_part()`.
-    -   Remove the last part of a multipart suffix using `remove_last_suffix_part()`.
--   **Path Object (`multiext.path`)**:
-    -   Provides `MultiExtPath`, a `pathlib.Path` subclass, offering integrated access to multipart suffix properties and manipulation methods directly on path objects.
+-   **Parsing (`multiext.parser`)**: This module provides robust tools for dissecting filenames and paths with complex, multi-part extensions (e.g., `.tar.gz`, `.project.snapshot.zip`). Key functions allow you to:
+    -   Extract the full multipart suffix (e.g., `get_full_suffix()`).
+    -   Get the base stem before any multipart suffix (e.g., `get_stem_multipart()`).
+    -   Split a filename into its stem and full suffix (e.g., `split_multipart_ext()`).
+    -   Break down a full suffix into its parts (e.g., `get_suffix_parts()`).
+    -   Normalize suffix strings (e.g., `normalize_suffix()`).
+    -   **Common Use Cases**: File type detection beyond simple suffixes, automatic categorization/routing of files, extracting embedded filename information (like version numbers), and normalizing suffixes for consistent processing and comparison.
+
+-   **Validation (`multiext.validation`)**: This module offers functions to verify if filenames possess multipart suffixes and to validate these against defined criteria, crucial for ensuring compliance before processing. Key functions allow you to:
+    -   Check if a filename has a multipart suffix (e.g., `has_multipart_suffix()`).
+    -   Validate a filename's full suffix against a list of valid ones (e.g., `is_valid_multipart_suffix()`), supporting case-sensitive/insensitive comparisons and regex patterns.
+    -   **Common Use Cases**: Input file validation (e.g., for uploads or CLI arguments), filtering files by complex extension patterns, security checks for filename conformity, and implementing conditional logic based on suffix recognition.
+
+-   **Manipulation (`multiext.manipulation`)**: This module provides powerful functions for modifying filenames and paths involving multipart extensions, offering precise control over adding, removing, or replacing extensions. Key functions allow you to:
+    -   Replace the entire multipart suffix (e.g., `replace_multipart_suffix()`).
+    -   Add a new part to an existing suffix chain (e.g., `add_suffix_part()`).
+    -   Remove the last part of a multipart suffix (e.g., `remove_last_suffix_part()`).
+    -   **Common Use Cases**: Renaming files during conversion processes (e.g., `data.tar.gz` to `data.zip`), versioning or backing up files (e.g., `config.json` to `config.json.bak`), standardizing filenames by altering suffix parts, and programmatically constructing output filenames.
+
+-   **Path Object (`multiext.path`)**: This module introduces `MultiExtPath`, a `pathlib.Path` subclass designed to simplify interactions with paths featuring multipart extensions. It offers:
+    -   Integrated access to multipart suffix properties (e.g., `p.full_suffix`, `p.stem_multipart`) and manipulation methods (e.g., `p.replace_multipart_suffix()`) directly on path objects.
+    -   **Benefits**: Accurate multipart suffix handling, precise stem extraction, simplified suffix manipulation, consistency with other `multiext` modules, and full `pathlib.Path` compatibility. This is useful for applications dealing with compressed files, versioned files, or any naming convention with multiple dot-separated extension segments.
 
 ## Installation
 
